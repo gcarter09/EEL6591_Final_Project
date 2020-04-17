@@ -1,5 +1,6 @@
-%Then run this section to get results for various probabilities of false
-%alarm
+%This code generates results for various probabilities of false alarm
+
+% Uncomment desired variances to be included in the curve
 %C_variance_minus_30dB = 3.8470e-10;
 C_variance_minus_25dB = 6.6890e-11; %This is a function of the SNR (original 3.8943e-11)
 %C_variance_minus_24dB = 4.1696e-11;
@@ -11,7 +12,7 @@ SNR_dB = -23;
 number_of_points = 18; % according to the number of P_FA's
 tests_per_point = 100;
 
-
+% Initialize arrays for number of detections and number of false alarms
 num_detect = zeros(1, number_of_points);
 num_FA = zeros(1, number_of_points);
 
