@@ -1,4 +1,9 @@
-%% Cannot run this without LTE Toolbox
+% This code generates an LTE compliant waveform containing random
+% transmissions over time. The time domain signal will be transformed
+% for analysis in the frequency domain
+%% This code cannot be run without LTE Toolbox %%
+
+
 %  The following example shows how to create a 20MHz, QPSK, 3/4 rate
 %  waveform corresponding to transmission mode 8 ('Port7-8' transmission
 %  scheme) with full allocation 
@@ -20,8 +25,8 @@ params.PDSCH.W = lteCSICodebook(params.PDSCH.NLayers,...
 fullParams = lteRMCDL(params);
 % Generate the waveform using the full parameter set 'fullParams'
 [rmcwaveform, rmcgrid, rmcconfig] = lteRMCDLTool(fullParams,dataStream);
-% dlWaveform is the time domain waveform, dlGrid is the resource grid and
-% dlParams is the full set of parameters used in the waveform generation.
+% rmcwaveform is the time domain waveform, rmcGrid is the resource grid and
+% rmcconfig is the full set of parameters used in the waveform generation.
 
 % Populated resource grid, returned as a numeric 3-D array of resource elements
 % for several subframes across all configured antenna ports
@@ -31,8 +36,10 @@ title('Resource Element Grid')
 ylabel('Subcarriers')
 xlabel('Symbols')
 
+% Print RMC Configuration that is generated
 disp('LTE Downlink Configuration')
 rmcconfig
+
 %%
 % 100 RBs.  20 MHz Signal has 100 RBs 
 % 12 Subcarriers per RB
@@ -57,7 +64,7 @@ symbol_size2 = 2192;
 r=zeros(1,length(rmcwaveform));
 for n=1:length(rmcwaveform) - (15360+symbol_size2-1) % 15360 = 2208 + 6 * 2192
     if(mod(n,1000) == 0)
-        n  % to see progress
+        n  % Print to see progress
     end
     xl = rmcwaveform(n:n+symbol_size2-1);
     xm = rmcwaveform(n+15360 : n+15360+symbol_size2-1);

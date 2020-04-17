@@ -1,6 +1,9 @@
-% Load the generated LTE communications signal
+% Load the generated LTE communications signal from LTE_Downlink.m
 % In order to regenerate this signal, the LTE Toolbox is needed
+% This loads the RMC (Reference Measurement Channel) Waveform (along with the grid and configuration)
 load('lte.mat')
+
+% Load the generated variances array (8 sample vector based on number of SNR's used)
 load('variances_minus_18_to_4.mat') % Load the variances computed with the variance calculator
 
 P_FA = 0.01;

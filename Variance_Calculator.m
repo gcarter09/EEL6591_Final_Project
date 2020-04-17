@@ -1,16 +1,23 @@
-load('lte.mat') %load LTE signal
-%Calculate the test statistic variance for various SNRs
-%Compute the variance of the test statistic for the desired SNR
+% This code calculates the test statistic variance for various SNRs
+
+% Load the generated LTE communications signal from LTE_Downlink.m
+% In order to regenerate this signal, the LTE Toolbox is needed
+% This loads the RMC (Reference Measurement Channel) Waveform (along with the grid and configuration)
+load('lte.mat')
 
 symbol_size1 = 2208;
 symbol_size2 = 2192;
 
+% 8 different SNR's will be generated as can be seen below
 variances = zeros(1,8);
-k = 1 % the kth SNR
+% Loop counter for saving the calculated variance
+k = 1
 
+% This for loop iterates through various SNR values
+% going from -18 to -4 by 2's gives 8 values
 for SNR_dB = -18 : 2 : -4
 
-    tic   
+    tic % Used for timing the loop  
     c = zeros(1,50);
 
         for i = 1:50
