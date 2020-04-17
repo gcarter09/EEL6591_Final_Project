@@ -1,4 +1,6 @@
-load('lte.mat') %load LTE signal
+% Load the generated LTE communications signal
+% In order to regenerate this signal, the LTE Toolbox is needed
+load('lte.mat')
 load('variances_minus_18_to_4.mat') % Load the variances computed with the variance calculator
 
 P_FA = 0.01;
