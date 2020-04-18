@@ -1,9 +1,5 @@
-% This code generates an LTE compliant waveform containing random
-% transmissions over time. The time domain signal will be transformed
-% for analysis in the frequency domain
-%% This code cannot be run without LTE Toolbox %%
-
-
+%% Cannot run this without LTE Toolbox
+% https://www.mathworks.com/help/lte/examples/lte-parameterization-for-waveform-generation-and-simulation.html
 %  The following example shows how to create a 20MHz, QPSK, 3/4 rate
 %  waveform corresponding to transmission mode 8 ('Port7-8' transmission
 %  scheme) with full allocation 
@@ -25,8 +21,8 @@ params.PDSCH.W = lteCSICodebook(params.PDSCH.NLayers,...
 fullParams = lteRMCDL(params);
 % Generate the waveform using the full parameter set 'fullParams'
 [rmcwaveform, rmcgrid, rmcconfig] = lteRMCDLTool(fullParams,dataStream);
-% rmcwaveform is the time domain waveform, rmcGrid is the resource grid and
-% rmcconfig is the full set of parameters used in the waveform generation.
+% dlWaveform is the time domain waveform, dlGrid is the resource grid and
+% dlParams is the full set of parameters used in the waveform generation.
 
 % Populated resource grid, returned as a numeric 3-D array of resource elements
 % for several subframes across all configured antenna ports
@@ -36,10 +32,8 @@ title('Resource Element Grid')
 ylabel('Subcarriers')
 xlabel('Symbols')
 
-% Print RMC Configuration that is generated
 disp('LTE Downlink Configuration')
 rmcconfig
-
 %%
 % 100 RBs.  20 MHz Signal has 100 RBs 
 % 12 Subcarriers per RB
@@ -64,7 +58,7 @@ symbol_size2 = 2192;
 r=zeros(1,length(rmcwaveform));
 for n=1:length(rmcwaveform) - (15360+symbol_size2-1) % 15360 = 2208 + 6 * 2192
     if(mod(n,1000) == 0)
-        n  % Print to see progress
+        n  % to see progress
     end
     xl = rmcwaveform(n:n+symbol_size2-1);
     xm = rmcwaveform(n+15360 : n+15360+symbol_size2-1);
@@ -100,7 +94,7 @@ hold off
 idx = sort([round(idx1) round(idx2)]);
 % For now, assume that these are the best spots
 r(idx);
-C = sum(r(idx)) / 37 % where for is the number of r terms
+C = sum(r(idx)) / 37 % where 37 is the number of r terms
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
@@ -199,14 +193,7 @@ end
 
 C_variance = var(c);
 
-%decision_threshold = sqrt(-C_variance*log(prob_false_alarm));
 toc
-%C_variance = (noise_variance^2) / (37 * symbol_size2 * (1200^2)); % where 40 is the nuber of r terms, symbol_size 2 is the length of an OFDM symbol, 1200 is the number of OFDM subcarriers
-
-%compute decision threshold
-
-%decision_threshold = sqrt(-C_variance*log(prob_false_alarm))
-
 %%
 % Add noise to LTE signal
 %https://www.gaussianwaves.com/2015/06/how-to-generate-awgn-noise-in-matlaboctave-without-using-in-built-awgn-function/
