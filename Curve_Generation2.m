@@ -72,25 +72,26 @@ function test_statistic = generate_test_statistic(signal)
             if(mod(n,1000) == 0)
                 n;  % to see progress
             end
-            xl = signal(n:n+symbol_size2-1);
-            xm = signal(n+15360 : n+15360+symbol_size2-1);
             
-            r(n) = (1/symbol_size2) * sum(xl .* conj(xm));  % i belive this is the right way to do it
+            xl = signal(n:n+symbol_size2-1); % a vector of symbol_size2 length
+            xm = signal(n+15360 : n+15360+symbol_size2-1); % a vector of symbol_size2 length that is 7 symbols away
+            
+            r(n) = (1/symbol_size2) * sum(xl .* conj(xm)); % calculate cross correlation
 
         end
         % This marks the odd slots
-        idx1 = linspace(1,length(signal),20+1);
+        idx1 = linspace(1,length(signal),20+1); % from plots, we expect 20 pairs of alike pilot tone symbols
         idx1=idx1(1:20);
-        idx1=idx1+15360; % 2208 + 6 * 2192
+        idx1=idx1+15360; % 2208 + 6 * 2192 =  Distance between two symbols that have identical pilot tone information
         % This marks the even slots
-        idx2 = linspace(1,length(signal),20+1);
+        idx2 = linspace(1,length(signal),20+1); % from plots, we expect 20 pairs of alike pilot tone symbols
         idx2=idx2(1:20);
-        idx2=idx2+8784;  % 2208 + 3 * 2192
+        idx2=idx2+8784;  % 2208 + 3 * 2192 = Distance between two symbols that both have pilot tone information
         
         idx = sort([round(idx1) round(idx2)]);
         % For now, assume that these are the best spots
         r(idx);
-        C = sum(r(idx)) / 37; % where for is the number of r terms
+        C = sum(r(idx)) / 37; % where 37 is the number of r terms
         C = abs(C);
         test_statistic = C;
 end

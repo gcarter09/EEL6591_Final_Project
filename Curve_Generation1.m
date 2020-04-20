@@ -1,15 +1,10 @@
-%Then run this section to get results for various probabilities of false
-%alarm
-%C_variance_minus_30dB = 3.8470e-10;
-C_variance_minus_25dB = 6.6890e-11; %This is a function of the SNR (original 3.8943e-11)
-%C_variance_minus_24dB = 4.1696e-11;
+C_variance_minus_25dB = 6.6890e-11;
 C_variance_minus_23dB = 2.3425e-11;
 C_variance_minus_20dB = 4.2770e-12; 
-%C_variance_minus_15dB = 6.4222e-13; 
 
 SNR_dB = -23;
 number_of_points = 18; % according to the number of P_FA's
-tests_per_point = 4;
+tests_per_point = 100;
 
 
 num_detect = zeros(1, number_of_points); % each index will corrspond to 100 tests for a given P_FA
@@ -76,10 +71,10 @@ function test_statistic = generate_test_statistic(signal)
                 n;  % to see progress
             end
             
-            xl = signal(n:n+symbol_size2-1);
-            xm = signal(n+15360 : n+15360+symbol_size2-1);
+            xl = signal(n:n+symbol_size2-1); % a vector of symbol_size2 length
+            xm = signal(n+15360 : n+15360+symbol_size2-1); % a vector of symbol_size2 length that is 7 symbols away
             
-            r(n) = (1/symbol_size2) * sum(xl .* conj(xm));  % i belive this is the right way to do it
+            r(n) = (1/symbol_size2) * sum(xl .* conj(xm));  % calculate cross correlation
 
         end
         % This marks the odd slots
